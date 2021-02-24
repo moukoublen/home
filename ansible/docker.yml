@@ -1,8 +1,9 @@
 - hosts: pi4
   become: true
   vars:
-    docker_users: [ "vagrant" ]
+    docker_users: [ "ubuntu" ]
     docker_install_compose: false
+    docker_apt_arch: arm64
   roles:
     - geerlingguy.docker
   tasks:
@@ -10,9 +11,3 @@
       apt:
         pkg:
         - python3-docker
-    - name: Install Docker Compose
-      get_url:
-        url: "https://github.com/docker/compose/releases/download/1.28.2/docker-compose-Linux-x86_64"
-        dest: "/usr/local/bin/docker-compose"
-        mode: 0755
-        timeout: 100
