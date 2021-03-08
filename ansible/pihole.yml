@@ -1,0 +1,40 @@
+---
+- hosts: pi31
+  become: true
+  become_user: root
+  tasks:
+    - name: "Create directory /data/pihole/etc-pihole/"
+      ansible.builtin.file:
+        path: /data/pihole/etc-pihole/
+        state: directory
+        mode: '0755'
+    - name: "Create directory /data/pihole/etc-dnsmasq.d/"
+      ansible.builtin.file:
+        path: /data/pihole/etc-dnsmasq.d/
+        state: directory
+        mode: '0755'
+    - name: Deploy pihole
+      community.docker.docker_container:
+        name: pihole
+        image: pihole/pihole:latest
+        state: started
+        restart: yes
+        restart_policy: "unless-stopped"
+        mounts:
+          - source: "/data/pihole/etc-pihole/"
+            target: "/etc/pihole/"
+            type: "bind"
+          - source: "/data/pihole/etc-dnsmasq.d/"
+            target: "/etc/dnsmasq.d/"
+            type: "bind"
+        network_mode: bridge
+        ports:
+          - "53:53/tcp"
+          - "53:53/udp"
+          - "80:80/tcp"
+          - "443:443/tcp"
+        env:
+          TZ: "Europe/Athens"
+          WEBPASSWORD: "secure"
+          PIHOLE_DNS_:"1.1.1.1;1.0.0.1"
+        container_default_behavior: "no_defaults"

@@ -1,5 +1,6 @@
 ansible_collections/
 ansible_roles/
+ansible_lib/
 
 /keys/
 /ansible/inventory

@@ -1,4 +1,4 @@
-- hosts: pi4
+- hosts: all
   become: true
   vars:
     docker_users: [ "ubuntu" ]
