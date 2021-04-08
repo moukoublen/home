@@ -1,9 +1,9 @@
 ---
 - hosts: all
   roles:
-    - cloudalchemy.node-exporter
+    - cloudalchemy.node_exporter
   vars:
-    node_exporter_version: 1.1.1
+    node_exporter_version: 1.1.2
     node_exporter_enabled_collectors:
       - systemd
       - textfile:
