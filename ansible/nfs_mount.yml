@@ -1,0 +1,23 @@
+---
+- hosts: all
+  become: true
+  become_user: root
+  tasks:
+    - name: Create the directory to mount nfs
+      ansible.builtin.file:
+        path: /kounel
+        state: directory
+        mode: '0777'
+
+    - name: Install nfs-common
+      apt:
+        pkg:
+        - nfs-common
+
+    - name: Mount the NFS volume
+      ansible.posix.mount:
+        src: 192.168.1.240:/kounel
+        path: /kounel
+        opts: rw,nosuid,nodev,async,hard,intr
+        state: mounted
+        fstype: nfs4
