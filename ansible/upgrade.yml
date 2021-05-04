@@ -8,10 +8,17 @@
         update_cache: yes
         force_apt_get: yes
         cache_valid_time: 3600
-
-    - name: upgradable packages
+    - name: Upgradable packages
+      ansible.builtin.command:
+        argv:
+        - /usr/lib/update-notifier/apt-check
+        - --package-names
+        strip_empty_ends: true
+      register: upgradable_packages
+      changed_when: false
+    - name: List Upgradable packages
       ansible.builtin.debug:
-        var: apt_list_upgradable.stdout_lines
+        var: upgradable_packages.stdout_lines
       changed_when: false
     - name: Upgrade all packages on servers
       ansible.builtin.apt:
