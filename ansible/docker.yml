@@ -8,6 +8,6 @@
     - geerlingguy.docker
   tasks:
     - name: Install docker python
-      apt:
+      ansible.builtin.apt:
         pkg:
         - python3-docker

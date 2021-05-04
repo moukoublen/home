@@ -8,7 +8,7 @@
         update_cache: yes
         force_apt_get: yes
         cache_valid_time: 3600
-U
+
     - name: upgradable packages
       ansible.builtin.debug:
         var: apt_list_upgradable.stdout_lines

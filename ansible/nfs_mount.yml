@@ -10,7 +10,7 @@
         mode: '0777'
 
     - name: Install nfs-common
-      apt:
+      ansible.builtin.apt:
         pkg:
         - nfs-common
 
