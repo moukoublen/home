@@ -18,7 +18,7 @@
       changed_when: false
     - name: List Upgradable packages
       ansible.builtin.debug:
-        var: upgradable_packages.stdout_lines
+        var: upgradable_packages.stderr_lines + upgradable_packages.stdout_lines
       changed_when: false
     - name: Upgrade all packages on servers
       ansible.builtin.apt:
