@@ -5,7 +5,7 @@
   tasks:
     - name: Create the directory to mount nfs
       ansible.builtin.file:
-        path: /kounel
+        path: /pupa
         state: directory
         mode: '0777'
 
@@ -16,8 +16,8 @@
 
     - name: Mount the NFS volume
       ansible.posix.mount:
-        src: 192.168.1.240:/kounel
-        path: /kounel
+        src: 192.168.1.240:/pupa
+        path: /pupa
         opts: rw,nosuid,nodev,async,hard,intr
         state: mounted
         fstype: nfs4

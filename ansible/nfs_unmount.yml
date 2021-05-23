@@ -5,5 +5,5 @@
   tasks:
     - name: Umount the NFS volume
       ansible.posix.mount:
-        path: /kounel
+        path: /pupa
         state: absent
