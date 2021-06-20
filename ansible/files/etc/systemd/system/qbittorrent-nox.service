@@ -1,0 +1,14 @@
+[Unit]
+Description=qbittorrent
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=forking
+Restart=always
+RestartSec=1
+User=ubuntu
+ExecStart=/usr/bin/qbittorrent-nox --webui-port=9999 --daemon
+
+[Install]
+WantedBy=multi-user.target

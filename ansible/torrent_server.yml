@@ -1,0 +1,30 @@
+---
+- hosts: torrentsrv
+  become: true
+  become_user: root
+  tasks:
+    - name: Add qbittorrent repository from PPA
+      ansible.builtin.apt_repository:
+        repo: 'ppa:qbittorrent-team/qbittorrent-stable'
+        filename: qbittorrent
+        state: present
+        update_cache: yes
+    - name: Install qbittorrent
+      ansible.builtin.apt:
+        name: qbittorrent-nox
+        state: present
+      register: package_install_result
+    - name: Ensure qbittorrent service file
+      ansible.builtin.copy:
+        src: ./files/etc/systemd/system/qbittorrent-nox.service
+        dest: /etc/systemd/system/qbittorrent-nox.service
+        owner: root
+        group: root
+        mode: '0644'
+      register: service_file_result
+    - name: Enable qbittorrent service
+      ansible.builtin.systemd:
+        name: qbittorrent-nox
+        state: restarted
+        enabled: yes
+      when: package_install_result.changed or service_file_result.changed
