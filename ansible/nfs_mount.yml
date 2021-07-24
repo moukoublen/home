@@ -19,6 +19,8 @@
       ansible.posix.mount:
         src: 192.168.1.240:/pupa
         path: /pupa
-        opts: rw,nosuid,nodev,async,hard,intr
+        opts: nfsvers=3,rw,nosuid,nodev,async,hard,intr
+        dump: "0"
+        passno: "0"
         state: mounted
-        fstype: nfs4
+        fstype: nfs
