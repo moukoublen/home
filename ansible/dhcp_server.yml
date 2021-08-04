@@ -1,0 +1,42 @@
+---
+- hosts: pi31
+  become: true
+  become_user: root
+  tasks:
+    - name: Package isc-dhcp-server is present
+      ansible.builtin.apt:
+        name: isc-dhcp-server
+        state: present
+      register: package_install_result
+    - name: Add dhcp interface
+      ansible.builtin.lineinfile:
+        path: /etc/default/isc-dhcp-server
+        regexp: 'INTERFACESv4='
+        line: INTERFACESv4="eth0"
+        state: present
+      register: dhcp_interface_config_result
+    - name: Copy dhcpd configuration
+      ansible.builtin.copy:
+        src: ./files/etc/dhcp/dhcpd.conf
+        dest: /etc/dhcp/dhcpd.conf
+        owner: root
+        group: root
+        mode: '0644'
+      register: dhcp_config_result
+    - name: Enable dhcpd
+      ansible.builtin.systemd:
+        name: isc-dhcp-server
+        state: restarted
+        enabled: yes
+      when: package_install_result.changed or dhcp_interface_config_result.changed or dhcp_config_result.changed
+    - name: Disable dhcpdv6
+      ansible.builtin.systemd:
+        name: isc-dhcp-server6
+        state: stopped
+        enabled: no
+      when: package_install_result.changed or dhcp_interface_config_result.changed or dhcp_config_result.changed
+    - name: Download oui.txt
+      get_url:
+        url: http://standards-oui.ieee.org/oui/oui.txt
+        dest: /usr/local/etc/oui.txt
+        mode: '0664'

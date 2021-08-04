@@ -4,3 +4,6 @@ ansible_lib/
 
 /keys/
 /ansible/inventory
+
+# omit dhcpd file because of mac addresses. It is included in private repo.
+/ansible/files/etc/dhcp/dhcpd.conf
