@@ -1,5 +1,5 @@
 ---
-- hosts: pi31
+- hosts: dhcp_server
   become: true
   become_user: root
   tasks:
@@ -17,7 +17,7 @@
         state: started
         enabled: yes
 
-- hosts: pi4
+- hosts: all:!dhcp_server
   become: true
   become_user: root
   tasks:

@@ -1,5 +1,5 @@
 ---
-- hosts: torrentsrv
+- hosts: torrent_server
   become: true
   become_user: root
   tasks:

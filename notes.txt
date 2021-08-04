@@ -1,0 +1,5 @@
+wget http://standards-oui.ieee.org/oui/oui.txt
+sudo cp oui.txt /usr/local/etc/oui.txt
+
+dhcp-lease-list
+
