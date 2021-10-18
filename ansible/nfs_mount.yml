@@ -19,7 +19,7 @@
       ansible.posix.mount:
         src: 192.168.1.240:/pupa
         path: /pupa
-        opts: nfsvers=3,rw,nosuid,nodev,async,hard,intr
+        opts: nfsvers=3,rw,nosuid,nodev,async,hard,intr,_netdev,nofail,x-systemd.automount,x-systemd.device-timeout=10s
         dump: "0"
         passno: "0"
         state: mounted

@@ -9,6 +9,7 @@ Restart=always
 RestartSec=1
 User=ubuntu
 ExecStart=/usr/bin/qbittorrent-nox --webui-port=9999 --daemon
+After=network.target network-online.target local-fs.target remote-fs.target pupa.mount
 
 [Install]
 WantedBy=multi-user.target
