@@ -2,7 +2,7 @@
 roles:
   # https://galaxy.ansible.com/geerlingguy/docker
   - src: geerlingguy.docker
-    version: 4.0.0
+    version: 4.1.1
 
   # https://galaxy.ansible.com/cloudalchemy/node_exporter
   - src: cloudalchemy.node_exporter
