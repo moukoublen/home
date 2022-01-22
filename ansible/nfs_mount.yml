@@ -24,3 +24,11 @@
         passno: "0"
         state: mounted
         fstype: nfs
+      register: nfs_mount_result
+
+    - name: Restart qbittorrent service
+      ansible.builtin.systemd:
+        name: qbittorrent-nox
+        state: restarted
+        enabled: yes
+      when: inventory_hostname in groups['torrent_server'] and nfs_mount_result.changed
