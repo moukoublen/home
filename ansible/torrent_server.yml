@@ -3,12 +3,12 @@
   become: true
   become_user: root
   tasks:
-    - name: Add qbittorrent repository from PPA
-      ansible.builtin.apt_repository:
-        repo: 'ppa:qbittorrent-team/qbittorrent-stable'
-        filename: qbittorrent
-        state: present
-        update_cache: yes
+    # - name: Add qbittorrent repository from PPA
+    #   ansible.builtin.apt_repository:
+    #     repo: 'ppa:qbittorrent-team/qbittorrent-stable'
+    #     filename: qbittorrent
+    #     state: present
+    #     update_cache: yes
     - name: Install qbittorrent
       ansible.builtin.apt:
         name: qbittorrent-nox
