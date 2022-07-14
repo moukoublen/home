@@ -3,7 +3,7 @@ roles:
   # https://galaxy.ansible.com/geerlingguy/docker
   # https://github.com/geerlingguy/ansible-role-docker
   - src: geerlingguy.docker
-    version: 4.2.3
+    version: 4.2.4
 
 
   # https://galaxy.ansible.com/geerlingguy/node_exporter
