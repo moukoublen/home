@@ -1,21 +1,28 @@
 ---
 - hosts: all
+  become: true
+  become_user: root
   roles:
-    - cloudalchemy.node_exporter
+    - geerlingguy.node_exporter
   vars:
-    node_exporter_version: 1.3.1
-    node_exporter_web_listen_address: 0.0.0.0:9100
-    node_exporter_web_telemetry_path: /metrics
-    node_exporter_enabled_collectors:
-      - buddyinfo
-      - systemd
-      - filesystem:
-          ignored-mount-points: "^/(sys|proc|dev)($|/)"
-          ignored-fs-types: "^(sys|proc|auto)fs$"
-      - tcpstat
-      - mountstats
-      - processes
-      #- perf
+    node_exporter_version: '1.3.1'
+    node_exporter_arch: 'arm64'
+    node_exporter_state: started
+    node_exporter_enabled: true
+    node_exporter_options: '--web.listen-address=":9100" --web.telemetry-path="/metrics" --web.disable-exporter-metrics --log.format=json --log.level=info'
 
-# to be checked
+
+
+- hosts: all
+  become: true
+  become_user: root
+  tasks:
+    - name: Restart node_exporter service
+      ansible.builtin.systemd:
+        name: node_exporter
+        state: restarted
+        enabled: yes
+
+# https://galaxy.ansible.com/cloudalchemy/node_exporter
 # https://galaxy.ansible.com/mesaguy/prometheus
+# https://galaxy.ansible.com/geerlingguy/node_exporter

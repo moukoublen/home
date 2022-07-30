@@ -7,6 +7,8 @@
       ansible.builtin.file:
         path: /pupa
         state: directory
+        owner: root
+        group: root
         mode: '0777'
 
     - name: Install nfs-common
@@ -19,12 +21,15 @@
       ansible.posix.mount:
         src: 192.168.1.240:/volume1/pupa
         path: /pupa
-        opts: nfsvers=3,rw,nosuid,nodev,async,hard,intr,_netdev,nofail,x-systemd.automount,x-systemd.device-timeout=10s
-        dump: "0"
-        passno: "0"
+        opts: nfsvers=4,rw,nosuid,nodev,relatime,nofail,hard,_netdev,x-systemd.automount,x-systemd.device-timeout=10s
         state: mounted
         fstype: nfs
       register: nfs_mount_result
+
+    - name: Reload systemd daemon
+      ansible.builtin.systemd:
+        daemon_reload: yes
+      when: nfs_mount_result.changed
 
     - name: Restart qbittorrent service
       ansible.builtin.systemd:
