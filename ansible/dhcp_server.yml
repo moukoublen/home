@@ -3,6 +3,19 @@
   become: true
   become_user: root
   tasks:
+    - name: static IP configuration
+      ansible.builtin.copy:
+        src: ./files/etc/netplan/01-netcfg.yaml
+        dest: /etc/netplan/01-netcfg.yaml
+        owner: root
+        group: root
+        mode: '0644'
+      register: netplan_config_result
+    - name: Apply netplan
+      command: netplan apply
+      async: 45
+      poll: 0
+      when: netplan_config_result.changed
     - name: Package isc-dhcp-server is present
       ansible.builtin.apt:
         name: isc-dhcp-server
