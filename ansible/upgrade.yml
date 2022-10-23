@@ -30,7 +30,7 @@
       ansible.builtin.apt:
         force_apt_get: yes
         upgrade: full
-        force: yes
+        #force: yes
 
 - hosts: all
   become: true
