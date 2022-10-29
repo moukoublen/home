@@ -4,7 +4,7 @@ collections:
   # https://galaxy.ansible.com/community/general
   # https://docs.ansible.com/ansible/latest/collections/community/general/index.html#plugins-in-community-general
   - name: community.general
-    version: 5.7.0
+    version: 5.8.0
     source: https://galaxy.ansible.com
 
   # https://galaxy.ansible.com/community/docker
