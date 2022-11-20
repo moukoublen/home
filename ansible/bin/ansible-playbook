@@ -6,4 +6,5 @@ ANSIBLE_ROLES_PATH=./ansible_lib/roles ansible-playbook \
   -u ubuntu \
   -i inventory \
   --private-key ../keys/key \
+  --ssh-extra-args '-o IdentitiesOnly=yes'\
   "$@"

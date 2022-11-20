@@ -29,7 +29,7 @@
     - name: Upgrade all packages on servers
       ansible.builtin.apt:
         force_apt_get: yes
-        upgrade: full
+        upgrade: dist 
         #force: yes
 
 - hosts: all
