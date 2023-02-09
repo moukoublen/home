@@ -1,0 +1,58 @@
+---
+- hosts: all
+  become: true
+  become_user: root
+  tasks:
+    - name: create home config directory
+      ansible.builtin.file:
+        path: /home/ubuntu/.config
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+        mode: '0751'
+    - name: create home bin directory
+      ansible.builtin.file:
+        path: /home/ubuntu/bin
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+        mode: '0751'
+
+    - name: create htop config directory
+      ansible.builtin.file:
+        path: /home/ubuntu/.config/htop
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+        mode: '0700'
+    - name: htop config
+      ansible.builtin.copy:
+        src: ./files/htop/htoprc
+        dest: /home/ubuntu/.config/htop/htoprc
+        owner: ubuntu
+        group: ubuntu
+        mode: '0664'
+
+    - name: ports script
+      ansible.builtin.copy:
+        src: ./files/bin/ports
+        dest: /home/ubuntu/bin/ports
+        owner: ubuntu
+        group: ubuntu
+        mode: '0751'
+
+    - name: sshd config
+      ansible.builtin.copy:
+        src: ./files/etc/ssh/sshd_config.d/only-ipv4.conf
+        dest: /etc/ssh/sshd_config.d/only-ipv4.conf
+        owner: root
+        group: root
+        mode: '0644'
+      register: sshd_config_result
+
+    - name: sshd service
+      ansible.builtin.systemd:
+        name: sshd
+        state: restarted
+        enabled: yes
+      when: sshd_config_result.changed
