@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: pi44
   become: true
   become_user: root
   tasks:
@@ -9,33 +9,11 @@
           - nfs-common
         state: present
 
-    # - name: Check pupa directory
-    #   ansible.builtin.stat:
-    #     path: /pupa
-    #   register: pupa_folder
-    # - name: Create the directory to mount nfs
-    #   ansible.builtin.file:
-    #     path: /pupa
-    #     state: directory
-    #   when: pupa_folder.stat.exists == false
-
     - name: Mount the NFS volume
       ansible.posix.mount:
         src: 192.168.1.240:/volume1/pupa
-        path: /pupa
+        path: /disks/pupa
         opts: nfsvers=4,rw,nosuid,nodev,relatime,nofail,hard,_netdev   #,x-systemd.automount,x-systemd.device-timeout=10s
         state: mounted
         fstype: nfs
       register: nfs_mount_result
-
-    # - name: Reload systemd daemon
-    #   ansible.builtin.systemd:
-    #     daemon_reload: yes
-    #   when: nfs_mount_result.changed
-
-    - name: Restart qbittorrent service
-      ansible.builtin.systemd:
-        name: qbittorrent-nox
-        state: restarted
-        enabled: yes
-      when: inventory_hostname in groups['torrent_server'] and nfs_mount_result.changed

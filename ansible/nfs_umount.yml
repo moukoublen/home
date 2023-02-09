@@ -1,21 +1,9 @@
 ---
-- hosts: all
+- hosts: pi44
   become: true
   become_user: root
   tasks:
-    # - name: Stop qbittorrent service
-    #   ansible.builtin.systemd:
-    #     name: qbittorrent-nox
-    #     state: stopped
-    #     enabled: yes
-    #   when: inventory_hostname in groups['torrent_server']
-
     - name: Remove the NFS volume from fstab
       ansible.posix.mount:
-        path: /pupa
+        path: /disks/pupa
         state: absent
-
-    # - name: Reload systemd daemon
-    #   ansible.builtin.systemd:
-    #     daemon_reload: yes
- 
