@@ -43,8 +43,8 @@
 
     - name: sshd config
       ansible.builtin.copy:
-        src: ./files/etc/ssh/sshd_config.d/only-ipv4.conf
-        dest: /etc/ssh/sshd_config.d/only-ipv4.conf
+        src: ./files/etc/ssh/sshd_config.d/extras.conf
+        dest: /etc/ssh/sshd_config.d/extras.conf
         owner: root
         group: root
         mode: '0644'
