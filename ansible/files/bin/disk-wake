@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+__main() {
+  echo ""
+  echo ">>>>>>>>>> $(date) <<<<<<<<<<"
+
+  rm -rf /tmp/random.bin
+  dd if=/dev/urandom of=/tmp/random.bin bs=32K count=2 iflag=fullblock
+  rm -rf /tmp/random.bin
+
+  echo ">>>>>>>>>>---------<<<<<<<<<<"
+  echo ""
+}
+
+
+__main >> /var/log/disk-wake.log 2>&1
