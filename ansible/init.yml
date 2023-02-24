@@ -3,14 +3,14 @@
   become: true
   become_user: root
   tasks:
-    - name: create home config directory
+    - name: Create home config directory
       ansible.builtin.file:
         path: /home/ubuntu/.config
         state: directory
         owner: ubuntu
         group: ubuntu
         mode: '0751'
-    - name: create home bin directory
+    - name: Create home bin directory
       ansible.builtin.file:
         path: /home/ubuntu/bin
         state: directory
@@ -18,7 +18,7 @@
         group: ubuntu
         mode: '0751'
 
-    - name: create htop config directory
+    - name: Create htop config directory
       ansible.builtin.file:
         path: /home/ubuntu/.config/htop
         state: directory
@@ -33,7 +33,7 @@
         group: ubuntu
         mode: '0664'
 
-    - name: ports script
+    - name: Copy ports script
       ansible.builtin.copy:
         src: ./files/bin/ports
         dest: /home/ubuntu/bin/ports
@@ -41,7 +41,7 @@
         group: ubuntu
         mode: '0751'
 
-    - name: sshd config
+    - name: Ensure sshd config
       ansible.builtin.copy:
         src: ./files/etc/ssh/sshd_config.d/extras.conf
         dest: /etc/ssh/sshd_config.d/extras.conf
@@ -50,9 +50,14 @@
         mode: '0644'
       register: sshd_config_result
 
-    - name: sshd service
+    - name: restart sshd service if needed
       ansible.builtin.systemd:
         name: sshd
         state: restarted
         enabled: yes
       when: sshd_config_result.changed
+
+    # https://github.com/muesli/duf/releases
+    - name: Install duf deb package
+      apt:
+        deb: https://github.com/muesli/duf/releases/download/v0.8.1/duf_0.8.1_linux_arm64.deb
