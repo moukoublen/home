@@ -9,6 +9,14 @@
           - nfs-common
         state: present
 
+    - name: Create /disks directory if it does not exist
+      ansible.builtin.file:
+        path: /etc/some_directory
+        state: directory
+        mode: '0755'
+        owner: root
+        group: root
+
     - name: Mount the NFS volume
       ansible.posix.mount:
         src: 192.168.1.240:/volume1/pupa
