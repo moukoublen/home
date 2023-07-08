@@ -41,6 +41,22 @@
         group: ubuntu
         mode: '0751'
 
+    - name: Copy thermals script
+      ansible.builtin.copy:
+        src: ./files/bin/thermals
+        dest: /usr/local/bin/thermals
+        owner: ubuntu
+        group: ubuntu
+        mode: '0751'
+
+    - name: Copy apt-clean-uninstalled script
+      ansible.builtin.copy:
+        src: ./files/bin/apt-clean-uninstalled
+        dest: /usr/local/bin/apt-clean-uninstalled
+        owner: ubuntu
+        group: ubuntu
+        mode: '0751'
+
     - name: Ensure sshd config
       ansible.builtin.copy:
         src: ./files/etc/ssh/sshd_config.d/extras.conf
@@ -61,3 +77,16 @@
     - name: Install duf deb package
       apt:
         deb: https://github.com/muesli/duf/releases/download/v0.8.1/duf_0.8.1_linux_arm64.deb
+
+    - name: Packages
+      apt:
+        pkg:
+          - smartmontools
+          - wget
+          - curl
+          - git
+          - build-essential
+          - make
+          - tree
+          - iotop
+        state: present

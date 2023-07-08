@@ -18,22 +18,31 @@
       state: present
   - name: Create github-runner directory
     ansible.builtin.file:
-      path: /etc/actions-runner
+      path: /home/github/actions-runner
       state: directory
       mode: '0755'
       owner: github
       group: github
 
-- hosts: pi44
-  become: true
-  become_user: github
-  become_method: sudo
-  tasks:
   - name: Download and extract github-runner
     ansible.builtin.unarchive:
-      src: https://github.com/actions/runner/releases/download/v2.301.1/actions-runner-linux-arm64-2.301.1.tar.gz
+      src: https://github.com/actions/runner/releases/download/v2.306.0/actions-runner-linux-arm64-2.306.0.tar.gz
       remote_src: yes
-      dest: /etc/actions-runner
+      dest: /home/github/actions-runner
+
+  - name: chown of /home/github/actions-runner
+    ansible.builtin.shell:
+      cmd: chown --recursive github:github /home/github/actions-runner
+
 
 ## https://docs.github.com/en/actions/hosting-your-own-runners/adding-self-hosted-runners
 
+
+
+# install
+# <as github user> ./config.sh --url https://github.com/kutavi --token <token>
+# <as root> ./svc.sh install github
+
+# uninstall
+# <as root> ./svc.sh uninstall
+# <as github> ./config.sh remove --token <token>
