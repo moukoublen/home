@@ -84,6 +84,7 @@
           - smartmontools
           - wget
           - curl
+          - jq
           - git
           - build-essential
           - make
