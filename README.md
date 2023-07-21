@@ -11,14 +11,12 @@ source ~/homelab/bin/activate
 
 ### Install ansible and tools
 ```bash
-# activate virtual env if any
 pip install -U ansible-core ansible ansible-lint ansible-navigator
 ```
 
 
 ### Install ansible collections and roles
 ```bash
-# activate virtual env if any
 cd ansible
 ./bin/install-ansible-roles
 ./bin/install-ansible-collections
