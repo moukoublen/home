@@ -5,8 +5,9 @@ Home infrastructure scripts
 
 ### Create and activate virtual env (optional)
 ```bash
-virtualenv --python="/usr/bin/python3" --clear ./venv
+python3 -m venv --clear ./venv
 source ./venv/bin/activate
+pip install -U pip setuptools wheel # Optionally
 ```
 
 ### Install ansible and tools
