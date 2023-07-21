@@ -5,8 +5,8 @@ Home infrastructure scripts
 
 ### Create and activate virtual env (optional)
 ```bash
-virtualenv --python="/usr/bin/python3" --clear homelab
-source ~/homelab/bin/activate
+virtualenv --python="/usr/bin/python3" --clear ./venv
+source ./venv/bin/activate
 ```
 
 ### Install ansible and tools

@@ -1,5 +1,7 @@
 {
-  "ansible.python.activationScript": "/home/kost/virtualenv/home/bin/activate",
-  "ansible.python.interpreterPath": "/home/kost/virtualenv/home/bin/python",
-  "ansible.validation.lint.enabled": true
+  "ansible.python.activationScript": "./venv/bin/activate",
+  "ansible.python.interpreterPath": "./venv/bin/python",
+  "ansible.ansible.path": "./venv/bin/ansible",
+  "ansible.validation.lint.enabled": true,
+  "ansible.validation.lint.path": "./venv/bin/ansible-lint"
 }

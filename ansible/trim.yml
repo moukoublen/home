@@ -7,10 +7,7 @@
     # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/command_module.html
     - name: Trim
       ansible.builtin.command:
-        argv:
-          - fstrim
-          - -v
-          - --all
+        cmd: fstrim -v --all
         strip_empty_ends: true
       register: trim_output
       changed_when: true
@@ -18,4 +15,15 @@
     - name: Display trim output
       ansible.builtin.debug:
         var: trim_output.stdout_lines # + trim_output.stderr_lines
+      changed_when: false
+
+    - name: Gather disk usage
+      ansible.builtin.command:
+        cmd: duf -hide=special -hide-fs=squashfs -width 500
+      changed_when: true
+      register: duf_output
+
+    - name: Display duf output
+      ansible.builtin.debug:
+        var: duf_output.stdout_lines # + trim_output.stderr_lines
       changed_when: false
