@@ -1,5 +1,6 @@
 ---
-- hosts: pi4
+- name: Docker Installation
+  hosts: pi4
   become: true
   become_user: root
   tasks:
@@ -11,20 +12,23 @@
         group: root
         mode: '0755'
 
-    - name: Docker repo keyring
-      ansible.builtin.shell:
-        cmd: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-        creates: /etc/apt/keyrings/docker.gpg
-
-    - name: Docker repo source
-      ansible.builtin.shell:
-        cmd: echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-        creates: /etc/apt/sources.list.d/docker.list
+    - name: Docker keyring and repo
+      block:
+        # curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+        - name: Keyring
+          ansible.builtin.apt_key:
+            url: https://download.docker.com/linux/ubuntu/gpg
+            keyring: /etc/apt/keyrings/docker.gpg
+        - name: Repo
+          ansible.builtin.apt_repository:
+            repo: "deb [arch=arm64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+            filename: docker
+            state: present
 
     - name: Docker packages
       ansible.builtin.apt:
-        update_cache: yes
-        force_apt_get: yes
+        update_cache: true
+        force_apt_get: true
         cache_valid_time: 0
         pkg:
           - docker-ce
@@ -52,7 +56,7 @@
         owner: root
         group: root
         mode: '0755'
-    - name: htop config
+    - name: Docker daemon.json
       ansible.builtin.copy:
         src: ./files/etc/docker/daemon.json
         dest: /etc/docker/daemon.json
@@ -64,10 +68,10 @@
       ansible.builtin.systemd:
         name: docker.service
         state: restarted
-        enabled: yes
+        enabled: true
 
     - name: Enable containerd.service
       ansible.builtin.systemd:
         name: containerd.service
         state: restarted
-        enabled: yes
+        enabled: true

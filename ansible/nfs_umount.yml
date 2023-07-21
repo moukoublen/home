@@ -1,8 +1,15 @@
 ---
-- hosts: pi44
+- name: Unmount NFS pupa
+  hosts: pi44
   become: true
   become_user: root
   tasks:
+    - name: Stop plex
+      ansible.builtin.command:
+        argv: ["docker", "compose", "stop"]
+        chdir: /apps/plex
+      changed_when: true
+
     - name: Remove the NFS volume from fstab
       ansible.posix.mount:
         path: /disks/pupa

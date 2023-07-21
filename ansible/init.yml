@@ -1,8 +1,15 @@
 ---
-- hosts: all
+- name: Init
+  hosts: all
   become: true
   become_user: root
   tasks:
+
+#### append to /boot/firmware/config.txt
+# [all]
+# dtoverlay=disable-wifi
+# dtoverlay=disable-bt
+
     - name: Create home config directory
       ansible.builtin.file:
         path: /home/ubuntu/.config
@@ -25,7 +32,7 @@
         owner: ubuntu
         group: ubuntu
         mode: '0700'
-    - name: htop config
+    - name: Ensure htop config
       ansible.builtin.copy:
         src: ./files/htop/htoprc
         dest: /home/ubuntu/.config/htop/htoprc
@@ -49,14 +56,6 @@
         group: ubuntu
         mode: '0751'
 
-    - name: Copy apt-clean-uninstalled script
-      ansible.builtin.copy:
-        src: ./files/bin/apt-clean-uninstalled
-        dest: /usr/local/bin/apt-clean-uninstalled
-        owner: ubuntu
-        group: ubuntu
-        mode: '0751'
-
     - name: Ensure sshd config
       ansible.builtin.copy:
         src: ./files/etc/ssh/sshd_config.d/extras.conf
@@ -64,22 +63,16 @@
         owner: root
         group: root
         mode: '0644'
-      register: sshd_config_result
-
-    - name: restart sshd service if needed
-      ansible.builtin.systemd:
-        name: sshd
-        state: restarted
-        enabled: yes
-      when: sshd_config_result.changed
+      notify:
+        - Restart sshd service
 
     # https://github.com/muesli/duf/releases
     - name: Install duf deb package
-      apt:
+      ansible.builtin.apt:
         deb: https://github.com/muesli/duf/releases/download/v0.8.1/duf_0.8.1_linux_arm64.deb
 
     - name: Packages
-      apt:
+      ansible.builtin.apt:
         pkg:
           - smartmontools
           - wget
@@ -94,3 +87,9 @@
           - ca-certificates
           - gnupg
         state: present
+
+  handlers:
+    - name: Restart sshd service
+      ansible.builtin.systemd:
+        name: sshd
+        state: restarted

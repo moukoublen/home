@@ -1,23 +1,25 @@
 ---
-- hosts: all
+
+- name: Update Packages
+  hosts: all
   become: true
   become_user: root
   tasks:
     - name: Clean apt-get local repo
       ansible.builtin.apt:
-        clean: yes
+        clean: true
     - name: Update apt repo and cache on all Debian/Ubuntu boxes
       ansible.builtin.apt:
-        update_cache: yes
-        force_apt_get: yes
+        update_cache: true
+        force_apt_get: true
         cache_valid_time: 0
 
     # Get and display packages that need upgrade
     - name: Get Upgradable packages
       ansible.builtin.command:
         argv:
-        - /usr/lib/update-notifier/apt-check
-        - --package-names
+          - /usr/lib/update-notifier/apt-check
+          - --package-names
         strip_empty_ends: true
       register: upgradable_packages
       changed_when: false
@@ -28,22 +30,22 @@
 
     - name: Upgrade all packages on servers
       ansible.builtin.apt:
-        force_apt_get: yes
-        upgrade: dist 
-        #force: yes
+        force_apt_get: true
+        upgrade: dist
+        # force: true
 
-- hosts: all
+- name: Restart serialy if needed
+  hosts: all
   become: true
   become_user: root
   serial: 1
-  order: inventory
   tasks:
     - name: Check if a reboot is needed
       ansible.builtin.stat:
         path: /var/run/reboot-required
-        get_attributes: yes
-        get_mime: yes
-        get_checksum: no
+        get_attributes: true
+        get_mime: true
+        get_checksum: false
       register: reboot_required_file
     - name: Reboot
       ansible.builtin.reboot:

@@ -1,5 +1,6 @@
 ---
-- hosts: torrent_server
+- name: Torrent Service
+  hosts: torrent_server
   become: true
   become_user: root
   tasks:
@@ -13,7 +14,8 @@
       ansible.builtin.apt:
         name: qbittorrent-nox
         state: present
-      register: package_install_result
+      notify:
+        - Qbittorrent service
     - name: Ensure qbittorrent service file
       ansible.builtin.copy:
         src: ./files/etc/systemd/system/qbittorrent-nox.service
@@ -21,10 +23,13 @@
         owner: root
         group: root
         mode: '0644'
-      register: service_file_result
-    - name: Enable qbittorrent service
+      notify:
+        - Qbittorrent service
+
+
+  handlers:
+    - name: Qbittorrent service
       ansible.builtin.systemd:
         name: qbittorrent-nox
         state: restarted
-        enabled: yes
-      when: package_install_result.changed or service_file_result.changed
+        enabled: true

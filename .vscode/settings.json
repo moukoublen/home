@@ -1,0 +1,5 @@
+{
+  "ansible.python.activationScript": "/home/kost/virtualenv/home/bin/activate",
+  "ansible.python.interpreterPath": "/home/kost/virtualenv/home/bin/python",
+  "ansible.validation.lint.enabled": true
+}

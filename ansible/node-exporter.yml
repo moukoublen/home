@@ -1,27 +1,23 @@
 ---
-- hosts: all
+- name: Node Exporter
+  hosts: all
   become: true
   become_user: root
   roles:
     - geerlingguy.node_exporter
   vars:
-    node_exporter_version: '1.6.0'
+    node_exporter_version: '1.6.1'
     node_exporter_arch: 'arm64'
     node_exporter_state: started
     node_exporter_enabled: true
     node_exporter_options: '--web.telemetry-path="/metrics" --log.level=info'
 
-
-
-- hosts: all
-  become: true
-  become_user: root
-  tasks:
-    - name: Restart node_exporter service
-      ansible.builtin.systemd:
-        name: node_exporter
-        state: restarted
-        enabled: yes
+  # tasks:
+  #   - name: Restart node_exporter service
+  #     ansible.builtin.systemd:
+  #       name: node_exporter
+  #       state: restarted
+  #       enabled: yes
 
 # https://galaxy.ansible.com/cloudalchemy/node_exporter
 # https://galaxy.ansible.com/mesaguy/prometheus

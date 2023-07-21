@@ -1,43 +1,45 @@
 ---
-- hosts: pi44
+- name: GitHub self host runner
+  hosts: pi44
   become: true
   become_user: root
   tasks:
-  - name: Create github group
-    ansible.builtin.group:
-      name: github
-      state: present
-  - name: Create github user
-    ansible.builtin.user:
-      name: github
-      group: github
-      password: "!!"
-      shell: /usr/sbin/nologin
-      home: /home/github
-      create_home: yes
-      state: present
-  - name: Create github-runner directory
-    ansible.builtin.file:
-      path: /home/github/actions-runner
-      state: directory
-      mode: '0755'
-      owner: github
-      group: github
+    - name: Create github group
+      ansible.builtin.group:
+        name: github
+        state: present
+    - name: Create github user
+      ansible.builtin.user:
+        name: github
+        group: github
+        password: "!!"
+        shell: /usr/sbin/nologin
+        home: /home/github
+        create_home: true
+        state: present
+    - name: Create github-runner directory
+      ansible.builtin.file:
+        path: /home/github/actions-runner
+        state: directory
+        mode: '0755'
+        owner: github
+        group: github
 
-  - name: Download and extract github-runner
-    ansible.builtin.unarchive:
-      src: https://github.com/actions/runner/releases/download/v2.306.0/actions-runner-linux-arm64-2.306.0.tar.gz
-      remote_src: yes
-      dest: /home/github/actions-runner
+    - name: Download and extract github-runner
+      ansible.builtin.unarchive:
+        src: https://github.com/actions/runner/releases/download/v2.306.0/actions-runner-linux-arm64-2.306.0.tar.gz
+        remote_src: true
+        dest: /home/github/actions-runner
+        creates: /home/github/actions-runner/bin
 
-  - name: chown of /home/github/actions-runner
-    ansible.builtin.shell:
-      cmd: chown --recursive github:github /home/github/actions-runner
-
+    - name: Ensure ownner of /home/github/actions-runner
+      ansible.builtin.file:
+        path: /home/github/actions-runner
+        owner: github
+        group: github
+        recurse: true
 
 ## https://docs.github.com/en/actions/hosting-your-own-runners/adding-self-hosted-runners
-
-
 
 # install
 # <as github user> ./config.sh --url https://github.com/kutavi --token <token>

@@ -1,5 +1,6 @@
 ---
-- hosts: dhcp_server
+- name: Restart DHCP Server
+  hosts: dhcp_server
   become: true
   become_user: root
   tasks:
@@ -15,9 +16,10 @@
       ansible.builtin.systemd:
         name: isc-dhcp-server.service
         state: started
-        enabled: yes
+        enabled: true
 
-- hosts: all:!dhcp_server
+- name: Restart PI Nodes
+  hosts: all:!dhcp_server
   become: true
   become_user: root
   tasks:

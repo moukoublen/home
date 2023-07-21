@@ -1,9 +1,10 @@
 ---
-- hosts: pi31
+- name: DHCP Server
+  hosts: pi31
   become: true
   become_user: root
   tasks:
-    - name: static IP configuration
+    - name: Static IP configuration
       ansible.builtin.copy:
         src: ./files/etc/netplan/01-netcfg.yaml
         dest: /etc/netplan/01-netcfg.yaml
@@ -44,18 +45,25 @@
       ansible.builtin.systemd:
         name: isc-dhcp-server
         state: restarted
-        enabled: yes
+        enabled: true
       when: package_install_result.changed or dhcp_interface_config_result.changed or dhcp_config_result.changed
 
     - name: Disable dhcpdv6
       ansible.builtin.systemd:
         name: isc-dhcp-server6
         state: stopped
-        enabled: no
+        enabled: false
       when: package_install_result.changed or dhcp_interface_config_result.changed or dhcp_config_result.changed
 
     - name: Download oui.txt
-      get_url:
+      ansible.builtin.get_url:
         url: http://standards-oui.ieee.org/oui/oui.txt
         dest: /usr/local/etc/oui.txt
         mode: '0664'
+    # - name: Download oui.txt
+    #   ansible.builtin.copy:
+    #     src: ./oui.txt
+    #     dest: /usr/local/etc/oui.txt
+    #     owner: root
+    #     group: root
+    #     mode: '0644'

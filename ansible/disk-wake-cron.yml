@@ -1,32 +1,35 @@
 ---
-- hosts: all
+- name: Disk wake cron
+  hosts: pi41
   become: true
   become_user: root
   tasks:
-    - name: disks-wake script
+    - name: Disks wake script
       ansible.builtin.copy:
         src: ./files/bin/disk-wake
         dest: /usr/local/bin/disk-wake
         owner: root
         group: root
         mode: '0751'
-    - name: disks-wake logrotate config
+    - name: Disks - wake logrotate config
       ansible.builtin.copy:
         src: ./files/etc/logrotate.d/disk-wake
         dest: /etc/logrotate.d/disk-wake
         owner: root
         group: root
         mode: '0644'
-    - name: disks-wake cron file under /etc/cron.d
+    - name: Disks wake cron file under /etc/cron.d
       ansible.builtin.cron:
         name: disks-wake cronjob
         minute: "*/45"
         user: root
         job: "/usr/local/bin/disk-wake"
         cron_file: disks-wake-job
-    - name: touch cronjob
+        state: absent
+    - name: Touch cronjob
       ansible.builtin.cron:
         name: touch-cronjob
         minute: "*"
         user: root
         job: "/usr/bin/touch /tmp/touch-cronjob-f"
+        state: absent

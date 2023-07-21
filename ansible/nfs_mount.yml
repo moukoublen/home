@@ -1,5 +1,6 @@
 ---
-- hosts: pi44
+- name: Mount NFS pupa
+  hosts: pi44
   become: true
   become_user: root
   tasks:
@@ -16,13 +17,6 @@
         mode: '0755'
         owner: root
         group: root
-    - name: Create /disks/pupa directory if it does not exist
-      ansible.builtin.file:
-        path: /disks/pupa
-        state: directory
-        mode: '0755'
-        owner: root
-        group: root
 
     - name: Mount the NFS volume
       ansible.posix.mount:
@@ -31,4 +25,13 @@
         opts: nfsvers=4,rw,nosuid,nodev,relatime,nofail,hard,_netdev,x-systemd.automount,x-systemd.device-timeout=10s
         state: mounted
         fstype: nfs
-      register: nfs_mount_result
+      notify:
+        - Restart plex
+
+
+  handlers:
+    - name: Restart plex
+      ansible.builtin.command:
+        argv: ["docker", "compose", "restart"]
+        chdir: /apps/plex
+      changed_when: true
