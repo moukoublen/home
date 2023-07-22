@@ -1,0 +1,17 @@
+pi31 ansible_ssh_host=192.168.1.250
+pi41 ansible_ssh_host=192.168.1.241
+pi42 ansible_ssh_host=192.168.1.242
+pi43 ansible_ssh_host=192.168.1.243
+pi44 ansible_ssh_host=192.168.1.244
+
+[pi4]
+pi41
+pi42
+pi43
+pi44
+
+[torrent_server]
+pi44
+
+[dhcp_server]
+pi31
