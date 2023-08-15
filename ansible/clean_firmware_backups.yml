@@ -1,0 +1,49 @@
+---
+- name: Trim SSDs
+  hosts: all
+  become: true
+  become_user: root
+  tasks:
+
+    # - name: Find backup files under /boot/firmware/
+    #   ansible.builtin.find:
+    #     paths: /boot/firmware/
+    #     patterns: "*.bak"
+    #   register: firmware_backup
+
+    # - name: Delete backup files under /boot/firmware/
+    #   ansible.builtin.file:
+    #     path: "{{ item['path'] }}"
+    #     state: absent
+    #   with_items: "{{ firmware_backup['files'] }}"
+
+    # - name: Find backup files under /boot/firmware/overlays/
+    #   ansible.builtin.find:
+    #     paths: /boot/firmware/overlays/
+    #     patterns: "*.bak"
+    #   register: overlays_backup
+
+    # - name: Delete backup files under /boot/firmware/overlays/
+    #   ansible.builtin.file:
+    #     path: "{{ item['path'] }}"
+    #     state: absent
+    #   with_items: "{{ overlays_backup['files'] }}"
+
+
+    # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/command_module.html
+      # The command(s) will not be processed through the shell, so variables like $HOSTNAME
+      # and operations like "*", "<", ">", "|", ";" and "&" will not work.
+      # Use the ansible.builtin.shell module if you need these features.
+    # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/shell_module.html
+
+    - name: Remove backup files under /boot/firmware/
+      ansible.builtin.shell:
+        executable: /usr/bin/bash
+        cmd: rm -rf /boot/firmware/*.bak
+        removes: /boot/firmware/*.bak
+
+    - name: Remove backup files under /boot/firmware/overlays/
+      ansible.builtin.shell:
+        executable: /usr/bin/bash
+        cmd: rm -rf /boot/firmware/overlays/*.bak
+        removes: /boot/firmware/overlays/*.bak

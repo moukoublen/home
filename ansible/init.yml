@@ -83,7 +83,7 @@
           - make
           - tree
           - iotop
-          - linux-modules-extra-raspi
+          # - linux-modules-extra-raspi
           - ca-certificates
           - gnupg
         state: present
