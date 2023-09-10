@@ -10,4 +10,4 @@ ansible_lib/
 
 /ansible/private-*
 
-/venv/
+/ansible/venv/

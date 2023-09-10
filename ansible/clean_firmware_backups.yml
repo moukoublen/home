@@ -1,5 +1,5 @@
 ---
-- name: Trim SSDs
+- name: Clean Firmware Backups
   hosts: all
   become: true
   become_user: root
