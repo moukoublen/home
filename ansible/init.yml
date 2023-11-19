@@ -1,59 +1,66 @@
 ---
-- name: Init
-  hosts: all
-  become: true
-  become_user: root
-  tasks:
 
 #### append to /boot/firmware/config.txt
 # [all]
 # dtoverlay=disable-wifi
 # dtoverlay=disable-bt
 
+- name: Init (user local)
+  hosts: all
+  become: false
+  tasks:
+
     - name: Create home config directory
       ansible.builtin.file:
-        path: /home/ubuntu/.config
+        path: "/home/{{ ansible_env.USER }}/.config"
         state: directory
-        owner: ubuntu
-        group: ubuntu
+        owner: "{{ ansible_env.USER }}"
+        group: "{{ ansible_env.USER }}"
         mode: '0751'
     - name: Create home bin directory
       ansible.builtin.file:
-        path: /home/ubuntu/bin
+        path: "/home/{{ ansible_env.USER }}/bin"
         state: directory
-        owner: ubuntu
-        group: ubuntu
+        owner: "{{ ansible_env.USER }}"
+        group: "{{ ansible_env.USER }}"
         mode: '0751'
 
     - name: Create htop config directory
       ansible.builtin.file:
-        path: /home/ubuntu/.config/htop
+        path: "/home/{{ ansible_env.USER }}/.config/htop"
         state: directory
-        owner: ubuntu
-        group: ubuntu
+        owner: "{{ ansible_env.USER }}"
+        group: "{{ ansible_env.USER }}"
         mode: '0700'
     - name: Ensure htop config
       ansible.builtin.copy:
         src: ./files/htop/htoprc
-        dest: /home/ubuntu/.config/htop/htoprc
-        owner: ubuntu
-        group: ubuntu
+        dest: "/home/{{ ansible_env.USER }}/.config/htop/htoprc"
+        owner: "{{ ansible_env.USER }}"
+        group: "{{ ansible_env.USER }}"
         mode: '0664'
+
+- name: Init (root)
+  hosts: all
+  become: true
+  become_user: root
+  become_method: ansible.builtin.sudo
+  tasks:
 
     - name: Copy ports script
       ansible.builtin.copy:
         src: ./files/bin/ports
-        dest: /home/ubuntu/bin/ports
-        owner: ubuntu
-        group: ubuntu
+        dest: /usr/local/bin/ports
+        owner: root
+        group: root
         mode: '0751'
 
     - name: Copy thermals script
       ansible.builtin.copy:
         src: ./files/bin/thermals
         dest: /usr/local/bin/thermals
-        owner: ubuntu
-        group: ubuntu
+        owner: root
+        group: root
         mode: '0751'
 
     - name: Ensure sshd config

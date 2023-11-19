@@ -3,8 +3,9 @@ chmod 0600 ../keys/id_ed25519
 ANSIBLE_HOST_KEY_CHECKING=False \
 ANSIBLE_COLLECTIONS_PATHS=./ansible_lib \
 ANSIBLE_ROLES_PATH=./ansible_lib/roles ansible-playbook \
-  -u ubuntu \
   -i inventory \
   --private-key ../keys/id_ed25519 \
   --ssh-extra-args '-o IdentitiesOnly=yes'\
   "$@"
+
+#   -u ubuntu \

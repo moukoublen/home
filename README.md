@@ -21,13 +21,13 @@ pip install -U ansible-core ansible ansible-lint ansible-navigator
 
 ### Install ansible collections and roles
 ```bash
-./bin/install-ansible-roles
-./bin/install-ansible-collections
+./bin/install-ansible-lib
 ```
 
 
 ### Run ansible playbooks
 ```bash
+# e.g.
 ./bin/ansible-playbook init.yml
 ./bin/ansible-playbook node-exporter.yml
 ./bin/ansible-playbook docker.yml
