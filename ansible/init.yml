@@ -93,6 +93,7 @@
           # - linux-modules-extra-raspi
           - ca-certificates
           - gnupg
+          - bc
         state: present
 
   handlers:

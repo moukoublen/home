@@ -6,7 +6,7 @@
   roles:
     - geerlingguy.node_exporter
   vars:
-    node_exporter_version: '1.6.1'
+    node_exporter_version: '1.7.0'
     node_exporter_arch: 'arm64'
     node_exporter_state: started
     node_exporter_enabled: true
