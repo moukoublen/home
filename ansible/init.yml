@@ -53,7 +53,7 @@
         dest: /usr/local/bin/ports
         owner: root
         group: root
-        mode: '0751'
+        mode: '0755'
 
     - name: Copy thermals script
       ansible.builtin.copy:
@@ -61,7 +61,7 @@
         dest: /usr/local/bin/thermals
         owner: root
         group: root
-        mode: '0751'
+        mode: '0755'
 
     - name: Ensure sshd config
       ansible.builtin.copy:
