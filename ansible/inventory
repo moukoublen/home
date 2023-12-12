@@ -4,7 +4,7 @@
 #pi31 ansible_host=192.168.1.250
 pi41 ansible_host=192.168.1.241 ansible_user=pi
 pi42 ansible_host=192.168.1.242 ansible_user=pi
-pi43 ansible_host=192.168.1.243 ansible_user=ubuntu
+pi43 ansible_host=192.168.1.243 ansible_user=admin
 pi44 ansible_host=192.168.1.244 ansible_user=ubuntu
 
 [pi4]

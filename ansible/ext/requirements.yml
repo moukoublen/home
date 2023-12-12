@@ -4,13 +4,13 @@ collections:
   # https://galaxy.ansible.com/community/general
   # https://docs.ansible.com/ansible/latest/collections/community/general/index.html#plugins-in-community-general
   - name: community.general
-    version: 8.0.2
+    version: 8.1.0
     source: https://galaxy.ansible.com
 
   # https://galaxy.ansible.com/community/docker
   # https://docs.ansible.com/ansible/latest/collections/community/docker/index.html#plugins-in-community-docker
   - name: community.docker
-    version: 3.4.11
+    version: 3.5.0
     source: https://galaxy.ansible.com
 
   # https://galaxy.ansible.com/ansible/posix
@@ -29,4 +29,4 @@ roles:
   # https://galaxy.ansible.com/geerlingguy/node_exporter
   # https://github.com/geerlingguy/ansible-role-node_exporter
   - src: geerlingguy.node_exporter
-    version: 2.0.1
+    version: 2.1.0

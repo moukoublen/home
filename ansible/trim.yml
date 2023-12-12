@@ -4,6 +4,19 @@
   become: true
   become_user: root
   tasks:
+    - name: Ensure udev rule for usb ssd exists
+      ansible.builtin.copy:
+        src: ./files/etc/udev/rules.d/10-trim.rules
+        dest: /etc/udev/rules.d/10-trim.rules
+        owner: root
+        group: root
+        mode: '0644'
+      notify:
+        - Reboot
+
+    - name: Flush handlers
+      ansible.builtin.meta: flush_handlers
+
     # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/command_module.html
     - name: Trim
       ansible.builtin.command:
@@ -27,3 +40,13 @@
       ansible.builtin.debug:
         var: duf_output.stdout_lines # + trim_output.stderr_lines
       changed_when: false
+
+  handlers:
+    - name: Reboot
+      ansible.builtin.reboot:
+        msg: "Reboot initiated"
+        connect_timeout: 5
+        reboot_timeout: 600
+        pre_reboot_delay: 0
+        post_reboot_delay: 30
+        test_command: uptime

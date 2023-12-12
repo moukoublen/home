@@ -30,9 +30,9 @@
       ansible.builtin.copy:
         src: ./files/bin/docker-cleanup
         dest: /usr/local/bin/docker-cleanup
-        owner: ubuntu
-        group: ubuntu
-        mode: '0751'
+        owner: root
+        group: root
+        mode: '0755'
     - name: Cron job for docker clean-up
       ansible.builtin.cron:
         name: docker cleanup cronjob
