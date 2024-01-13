@@ -6,6 +6,7 @@
   roles:
     - geerlingguy.node_exporter
   vars:
+    # https://github.com/prometheus/node_exporter/releases
     node_exporter_version: '1.7.0'
     node_exporter_arch: 'arm64'
     node_exporter_state: started

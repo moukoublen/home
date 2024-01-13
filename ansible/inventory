@@ -1,11 +1,11 @@
 # https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html
 
 [pies]
-#pi31 ansible_host=192.168.1.250
-pi41 ansible_host=192.168.1.241 ansible_user=pi
-pi42 ansible_host=192.168.1.242 ansible_user=pi
-pi43 ansible_host=192.168.1.243 ansible_user=admin
-pi44 ansible_host=192.168.1.244 ansible_user=ubuntu
+#pi31 ansible_connection=ssh ansible_user=admin
+pi41 ansible_connection=ssh ansible_user=admin
+pi42 ansible_connection=ssh ansible_user=admin
+pi43 ansible_connection=ssh ansible_user=admin
+pi44 ansible_connection=ssh ansible_user=ubuntu
 
 [pi4]
 pi41
@@ -18,3 +18,6 @@ pi44
 
 #[dhcp_server]
 #pi31
+
+[ubuntus]
+pi44

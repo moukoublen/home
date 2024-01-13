@@ -63,6 +63,14 @@
         group: root
         mode: '0755'
 
+    - name: Copy bash aliases
+      ansible.builtin.copy:
+        src: ./files/etc/profile.d/aliases.sh
+        dest: /etc/profile.d/aliases.sh
+        owner: root
+        group: root
+        mode: '0644'
+
     - name: Ensure sshd config
       ansible.builtin.copy:
         src: ./files/etc/ssh/sshd_config.d/extras.conf
@@ -74,9 +82,9 @@
         - Restart sshd service
 
     # https://github.com/muesli/duf/releases
-    - name: Install duf deb package
-      ansible.builtin.apt:
-        deb: https://github.com/muesli/duf/releases/download/v0.8.1/duf_0.8.1_linux_arm64.deb
+    # - name: Install duf deb package
+    #   ansible.builtin.apt:
+    #     deb: https://github.com/muesli/duf/releases/download/v0.8.1/duf_0.8.1_linux_arm64.deb
 
     - name: Packages
       ansible.builtin.apt:
@@ -90,10 +98,10 @@
           - make
           - tree
           - iotop
-          # - linux-modules-extra-raspi
           - ca-certificates
           - gnupg
           - bc
+          - duf
         state: present
 
   handlers:

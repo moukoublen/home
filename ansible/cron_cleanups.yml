@@ -8,9 +8,9 @@
       ansible.builtin.copy:
         src: ./files/bin/apt-clean-uninstalled
         dest: /usr/local/bin/apt-clean-uninstalled
-        owner: ubuntu
-        group: ubuntu
-        mode: '0751'
+        owner: root
+        group: root
+        mode: '0755'
     - name: Cron job for apt clean-up
       ansible.builtin.cron:
         name: apt cleanup cronjob
