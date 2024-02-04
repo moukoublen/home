@@ -5,30 +5,31 @@
   become: true
   become_user: root
   tasks:
-    - name: Clean apt-get local repo
-      ansible.builtin.apt:
-        clean: true
-    - name: Update apt repo and cache on all Debian/Ubuntu boxes
+    # - name: Clean apt-get local repo
+    #   ansible.builtin.apt:
+    #     clean: true
+    - name: Update apt repo and cache
       ansible.builtin.apt:
         update_cache: true
         force_apt_get: true
-        cache_valid_time: 0
+        cache_valid_time: 120
 
     # Get and display packages that need upgrade
     - name: Get Upgradable packages
       ansible.builtin.command:
         argv:
-          - /usr/lib/update-notifier/apt-check
-          - --package-names
+          - apt
+          - list
+          - --upgradable
         strip_empty_ends: true
       register: upgradable_packages
       changed_when: false
     - name: List Upgradable packages
       ansible.builtin.debug:
-        var: upgradable_packages.stderr_lines + upgradable_packages.stdout_lines
+        var: upgradable_packages.stdout_lines
       changed_when: false
 
-    - name: Upgrade all packages on servers
+    - name: Upgrade all packages
       ansible.builtin.apt:
         force_apt_get: true
         upgrade: dist
