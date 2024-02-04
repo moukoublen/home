@@ -5,7 +5,7 @@
 pi41 ansible_connection=ssh ansible_user=admin
 pi42 ansible_connection=ssh ansible_user=admin
 pi43 ansible_connection=ssh ansible_user=admin
-pi44 ansible_connection=ssh ansible_user=ubuntu
+pi44 ansible_connection=ssh ansible_user=admin
 
 [pi4]
 pi41
@@ -19,5 +19,5 @@ pi44
 #[dhcp_server]
 #pi31
 
-[ubuntus]
-pi44
+; [ubuntus]
+; pi44

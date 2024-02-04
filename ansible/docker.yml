@@ -3,6 +3,8 @@
   hosts: all
   become: true
   become_user: root
+
+  # https://docs.docker.com/engine/install/debian/#install-using-the-repository
   tasks:
     - name: Create /etc/apt/keyrings
       ansible.builtin.file:
@@ -14,14 +16,15 @@
 
     - name: Docker keyring and repo
       block:
-        # curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-        - name: Keyring
-          ansible.builtin.apt_key:
-            url: https://download.docker.com/linux/ubuntu/gpg
-            keyring: /etc/apt/keyrings/docker.gpg
+        # sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+        - name: Download docker keyring
+          ansible.builtin.get_url:
+            url: https://download.docker.com/linux/debian/gpg
+            dest: /etc/apt/keyrings/docker.asc
+            mode: '0644'
         - name: Repo
           ansible.builtin.apt_repository:
-            repo: "deb [arch=arm64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+            repo: "deb [arch=arm64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
             filename: docker
             state: present
 
@@ -43,9 +46,9 @@
         name: docker
         state: present
 
-    - name: Ensure "ubuntu" user belongs to "docker" group
+    - name: Ensure "admin" user belongs to "docker" group
       ansible.builtin.user:
-        name: ubuntu
+        name: admin
         groups: docker
         append: true
 
@@ -56,13 +59,13 @@
         owner: root
         group: root
         mode: '0755'
-    - name: Docker daemon.json
-      ansible.builtin.copy:
-        src: ./files/etc/docker/daemon.json
-        dest: /etc/docker/daemon.json
-        owner: root
-        group: root
-        mode: '0644'
+    # - name: Docker daemon.json
+    #   ansible.builtin.copy:
+    #     src: ./files/etc/docker/daemon.json
+    #     dest: /etc/docker/daemon.json
+    #     owner: root
+    #     group: root
+    #     mode: '0644'
 
     - name: Enable docker.service
       ansible.builtin.systemd:
