@@ -1,2 +1,7 @@
+#!/usr/bin/env bash
+set -x
+
+### use `--force` when the versions are changed
+
 ANSIBLE_COLLECTIONS_PATH=./ansible_lib ansible-galaxy collection install --requirements-file ext/requirements.yml "$@"
 ANSIBLE_ROLES_PATH=./ansible_lib/roles ansible-galaxy role install --role-file ext/requirements.yml "$@"
