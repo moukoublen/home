@@ -8,8 +8,8 @@ Everything of the above needs to be run inside `ansible` directory. `cd ansible`
 
 ### Create and activate virtual env (optional)
 ```bash
-python3 -m venv --clear ./venv
-source ./venv/bin/activate
+python3 -m venv --clear ~/python-env
+source ~/python-env/bin/activate
 pip install -U pip setuptools wheel # Optionally
 ```
 
