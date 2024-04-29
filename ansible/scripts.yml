@@ -1,0 +1,31 @@
+---
+- name: Init (root)
+  hosts: all
+  become: true
+  become_user: root
+  become_method: ansible.builtin.sudo
+  tasks:
+
+    - name: Copy ports script
+      ansible.builtin.copy:
+        src: ./files/bin/ports
+        dest: /usr/local/bin/ports
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Copy thermals script
+      ansible.builtin.copy:
+        src: ./files/bin/thermals
+        dest: /usr/local/bin/thermals
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Copy bash aliases
+      ansible.builtin.copy:
+        src: ./files/etc/profile.d/aliases.sh
+        dest: /etc/profile.d/aliases.sh
+        owner: root
+        group: root
+        mode: '0644'

@@ -1,0 +1,16 @@
+---
+- name: Init (root)
+  hosts: pies
+  become: true
+  become_user: root
+  become_method: ansible.builtin.sudo
+  tasks:
+    - name: Disable bluetooth and wifi
+      ansible.builtin.lineinfile:
+        path: /boot/firmware/config.txt
+        insertafter: '^# /boot/firmware/overlays/README'
+        state: present
+        line: '{{ item }}'
+      with_items:
+        - dtoverlay=disable-wifi
+        - dtoverlay=disable-bt

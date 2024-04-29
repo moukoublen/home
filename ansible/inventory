@@ -1,5 +1,8 @@
 # https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html
 
+[xlarge]
+pencilvester ansible_connection=ssh ansible_user=admin
+
 [pies]
 #pi31 ansible_connection=ssh ansible_user=admin
 pi41 ansible_connection=ssh ansible_user=admin
@@ -19,5 +22,6 @@ pi44
 #[dhcp_server]
 #pi31
 
-; [ubuntus]
-; pi44
+[ghrunners]
+ghrunnervm ansible_connection=ssh ansible_user=kost
+

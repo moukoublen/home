@@ -1,6 +1,6 @@
 ---
 - name: Clean up script and cron for apt
-  hosts: all
+  hosts: pies
   become: true
   become_user: root
   tasks:
@@ -22,7 +22,7 @@
 
 
 - name: Clean up script and cron for docker
-  hosts: pi4
+  hosts: all
   become: true
   become_user: root
   tasks:

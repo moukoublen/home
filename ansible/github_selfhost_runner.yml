@@ -1,8 +1,9 @@
 ---
 - name: GitHub self host runner
-  hosts: pi44
+  hosts: ghrunners
   become: true
   become_user: root
+  become_method: sudo
   tasks:
     - name: Create github group
       ansible.builtin.group:
@@ -27,7 +28,8 @@
 
     - name: Download and extract github-runner
       ansible.builtin.unarchive:
-        src: https://github.com/actions/runner/releases/download/v2.306.0/actions-runner-linux-arm64-2.306.0.tar.gz
+        # https://github.com/actions/runner/releases
+        src: https://github.com/actions/runner/releases/download/v2.316.0/actions-runner-linux-x64-2.316.0.tar.gz
         remote_src: true
         dest: /home/github/actions-runner
         creates: /home/github/actions-runner/bin

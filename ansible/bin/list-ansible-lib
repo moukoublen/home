@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+
+ANSIBLE_COLLECTIONS_PATH=./ansible_lib ansible-galaxy collection list
+
+echo ""
+echo ""
+
+ANSIBLE_ROLES_PATH=./ansible_lib/roles ansible-galaxy role list
+

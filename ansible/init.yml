@@ -81,28 +81,23 @@
       notify:
         - Restart sshd service
 
-    # https://github.com/muesli/duf/releases
-    # - name: Install duf deb package
+    # - name: Packages
     #   ansible.builtin.apt:
-    #     deb: https://github.com/muesli/duf/releases/download/v0.8.1/duf_0.8.1_linux_arm64.deb
-
-    - name: Packages
-      ansible.builtin.apt:
-        pkg:
-          - smartmontools
-          - wget
-          - curl
-          - jq
-          - git
-          - build-essential
-          - make
-          - tree
-          - iotop
-          - ca-certificates
-          - gnupg
-          - bc
-          - duf
-        state: present
+    #     pkg:
+    #       - smartmontools
+    #       - wget
+    #       - curl
+    #       - jq
+    #       - git
+    #       - build-essential
+    #       - make
+    #       - tree
+    #       - iotop
+    #       - ca-certificates
+    #       - gnupg
+    #       - bc
+    #       - duf
+    #     state: present
 
   handlers:
     - name: Restart sshd service

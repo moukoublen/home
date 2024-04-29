@@ -4,8 +4,9 @@ ANSIBLE_HOST_KEY_CHECKING=False \
 ANSIBLE_COLLECTIONS_PATH=./ansible_lib \
 ANSIBLE_ROLES_PATH=./ansible_lib/roles ansible-playbook \
   -i inventory \
-  --private-key ~/.ssh/home_admin \
-  --ssh-extra-args '-o IdentitiesOnly=yes'\
   "$@"
 
+#   --private-key ~/.ssh/home_admin \
+#   --ssh-extra-args '-o IdentitiesOnly=yes'\
 #   -u ubuntu \
+#   --ask-become-pass \
