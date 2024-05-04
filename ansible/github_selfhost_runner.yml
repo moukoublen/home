@@ -3,7 +3,7 @@
   hosts: ghrunners
   become: true
   become_user: root
-  become_method: sudo
+  become_method: ansible.builtin.sudo
   tasks:
     - name: Create github group
       ansible.builtin.group:

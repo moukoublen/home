@@ -3,5 +3,16 @@ set -x
 
 ### use `--force` when the versions are changed
 
-ANSIBLE_COLLECTIONS_PATH=./ansible_lib ansible-galaxy collection install --requirements-file ext/requirements.yml "$@"
-ANSIBLE_ROLES_PATH=./ansible_lib/roles ansible-galaxy role install --role-file ext/requirements.yml "$@"
+# https://docs.ansible.com/ansible/latest/collections_guide/collections_installing.html
+#ANSIBLE_COLLECTIONS_PATH=./ansible_lib
+ansible-galaxy collection install \
+  --collections-path ./ansible_lib \
+  --requirements-file ext/requirements.yml \
+  "$@"
+
+# https://docs.ansible.com/ansible/latest/galaxy/user_guide.html#installing-roles
+#ANSIBLE_ROLES_PATH=./ansible_lib/roles
+ansible-galaxy role install \
+  --roles-path ./ansible_lib/roles \
+  --role-file ext/requirements.yml \
+  "$@"

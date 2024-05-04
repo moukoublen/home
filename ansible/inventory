@@ -19,9 +19,17 @@ pi44
 # [torrent_server]
 # pi44
 
-#[dhcp_server]
-#pi31
+# [dhcp_server]
+# pi31
 
 [ghrunners]
 ghrunnervm ansible_connection=ssh ansible_user=kost
 
+
+[apts]
+#pi31
+pi41
+pi42
+pi43
+pi44
+ghrunnervm

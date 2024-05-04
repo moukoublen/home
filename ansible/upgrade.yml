@@ -1,7 +1,7 @@
 ---
 
 - name: Update Packages
-  hosts: all
+  hosts: apts
   become: true
   become_user: root
   tasks:
@@ -35,12 +35,6 @@
         upgrade: dist
         # force: true
 
-- name: Restart serialy if needed
-  hosts: all
-  become: true
-  become_user: root
-  serial: 1
-  tasks:
     - name: Check if a reboot is needed
       ansible.builtin.stat:
         path: /var/run/reboot-required
@@ -57,3 +51,27 @@
         post_reboot_delay: 30
         test_command: uptime
       when: reboot_required_file.stat.exists
+
+
+# - name: Restart serially if needed
+#   hosts: apts
+#   become: true
+#   become_user: root
+#   serial: 1
+#   tasks:
+#     - name: Check if a reboot is needed
+#       ansible.builtin.stat:
+#         path: /var/run/reboot-required
+#         get_attributes: true
+#         get_mime: true
+#         get_checksum: false
+#       register: reboot_required_file
+#     - name: Reboot
+#       ansible.builtin.reboot:
+#         msg: "Reboot initiated by Ansible"
+#         connect_timeout: 5
+#         reboot_timeout: 300
+#         pre_reboot_delay: 0
+#         post_reboot_delay: 30
+#         test_command: uptime
+#       when: reboot_required_file.stat.exists
