@@ -1,0 +1,13 @@
+[Unit]
+Description=Runs btrfs volumes maintenance
+Wants=btrfs-maint.timer
+
+[Service]
+User=root
+Group=root
+Type=simple
+ExecStart=/usr/local/bin/btrfs-maint
+
+[Install]
+WantedBy=multi-user.target
+Also=btrfs-maint.timer

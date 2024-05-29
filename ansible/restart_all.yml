@@ -19,9 +19,11 @@
 #         enabled: true
 
 - name: Restart PI Nodes
-  hosts: all:!dhcp_server
+  #hosts: all:!dhcp_server
+  hosts: pies
   become: true
   become_user: root
+  become_method: ansible.builtin.sudo
   tasks:
     - name: Reboot
       ansible.builtin.reboot:

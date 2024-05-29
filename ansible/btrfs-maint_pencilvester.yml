@@ -1,0 +1,42 @@
+---
+- name: BTRFS maintenance cronjobs
+  hosts: pencilvester
+  become: true
+  become_user: root
+  become_method: ansible.builtin.sudo
+  tasks:
+    - name: Ensure btrfs-maint script exists
+      ansible.builtin.copy:
+        src: ./files/btrfs-maint/btrfs-maint
+        dest: /usr/local/bin/btrfs-maint
+        owner: root
+        group: root
+        mode: '0755'
+    - name: Ensure logrotate config
+      ansible.builtin.copy:
+        src: ./files/btrfs-maint/btrfs-maint.logrotate
+        dest: /etc/logrotate.d/btrfs-maint
+        owner: root
+        group: root
+        mode: '0644'
+    - name: Ensure systemd service
+      ansible.builtin.copy:
+        src: ./files/btrfs-maint/btrfs-maint.service
+        dest: /etc/systemd/system/btrfs-maint.service
+        owner: root
+        group: root
+        mode: '0644'
+    - name: Ensure systemd timer
+      ansible.builtin.copy:
+        src: ./files/btrfs-maint/btrfs-maint.timer
+        dest: /etc/systemd/system/btrfs-maint.timer
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Ensure systemd timer is enabled
+      ansible.builtin.systemd:
+        name: btrfs-maint.timer
+        state: started
+        enabled: true
+        daemon_reload: true

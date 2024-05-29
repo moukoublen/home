@@ -1,0 +1,11 @@
+[Unit]
+Description=Runs btrfs-maint.service every month
+Requires=btrfs-maint.service
+
+[Timer]
+OnCalendar=monthly
+Persistent=true
+AccuracySec=12h
+
+[Install]
+WantedBy=timers.target

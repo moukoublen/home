@@ -3,13 +3,13 @@ collections:
   # https://galaxy.ansible.com/ui/repo/published/community/general/
   # https://docs.ansible.com/ansible/latest/collections/community/general/index.html#plugins-in-community-general
   - name: community.general
-    version: 8.6.0
+    version: 9.0.0
     source: https://galaxy.ansible.com
 
   # https://galaxy.ansible.com/ui/repo/published/community/docker/
   # https://docs.ansible.com/ansible/latest/collections/community/docker/index.html#plugins-in-community-docker
   - name: community.docker
-    version: 3.9.0
+    version: 3.10.2
     source: https://galaxy.ansible.com
 
   # https://galaxy.ansible.com/ui/repo/published/ansible/posix/
