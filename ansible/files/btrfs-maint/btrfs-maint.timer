@@ -1,11 +1,12 @@
 [Unit]
 Description=Runs btrfs-maint.service every month
-Requires=btrfs-maint.service
 
 [Timer]
-OnCalendar=monthly
+OnCalendar=*-02,04,06,08,10,12-01 04:00:00
 Persistent=true
 AccuracySec=12h
 
 [Install]
 WantedBy=timers.target
+
+# systemd-analyze calendar '*-02,04,06,08,10,12-01 04:00:00'

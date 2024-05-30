@@ -34,6 +34,13 @@
         group: root
         mode: '0644'
 
+    - name: Ensure systemd service is disabled
+      ansible.builtin.systemd:
+        name: btrfs-maint.service
+        state: stopped
+        enabled: false
+        daemon_reload: true
+
     - name: Ensure systemd timer is enabled
       ansible.builtin.systemd:
         name: btrfs-maint.timer
