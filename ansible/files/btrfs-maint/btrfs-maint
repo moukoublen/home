@@ -1,32 +1,30 @@
 #!/usr/bin/env bash
 
+
+# sudo btrfs scrub:
+#     -B                        do not background
+#     -d                        stats per device (-B only)
+
+
 __maint() {
   echo ''
   echo "$(date) - btrfs maintenance starts"
 
-  echo ">> $(date --rfc-3339=seconds) start scrub to /mainvol"
-  btrfs scrub start -Bd /mainvol
+  echo ">> $(date --rfc-3339=seconds) start scrub to /storage/btrfs-ssd"
+  btrfs scrub start -Bd /storage/btrfs-ssd
   echo ''
 
-  echo ">> $(date --rfc-3339=seconds) start scrub to /disks/zool"
-  btrfs scrub start -Bd /disks/zool
-  echo ''
-
-  echo ">> $(date --rfc-3339=seconds) start scrub to /disks/SleepyGary"
-  btrfs scrub start -Bd /disks/SleepyGary
+  echo ">> $(date --rfc-3339=seconds) start scrub to /storage/SleepyGary"
+  btrfs scrub start -Bd /storage/SleepyGary
   echo ''
 
 
-  echo ">> $(date --rfc-3339=seconds) start defrag to /mainvol"
-  btrfs filesystem defragment -r -f /mainvol
+  echo ">> $(date --rfc-3339=seconds) start defrag to /storage/btrfs-ssd"
+  btrfs filesystem defragment -r -f /storage/btrfs-ssd
   echo ''
 
-  echo ">> $(date --rfc-3339=seconds) start defrag to /disks/zool"
-  btrfs filesystem defragment -r -f /disks/zool
-  echo ''
-
-  echo ">> $(date --rfc-3339=seconds) start defrag to /disks/SleepyGary"
-  btrfs filesystem defragment -r -f /disks/SleepyGary
+  echo ">> $(date --rfc-3339=seconds) start defrag to /storage/SleepyGary"
+  btrfs filesystem defragment -r -f /storage/SleepyGary
   echo ''
 
   echo "$(date) - btrfs maintenance ends"

@@ -1,0 +1,38 @@
+---
+- name: Packages info
+  hosts: pi4
+  become: true
+  become_user: root
+  become_method: ansible.builtin.sudo
+  tasks:
+    - name: Get snap list
+      ansible.builtin.command:
+        argv:
+          - snap
+          - list
+        strip_empty_ends: true
+      register: snap_output
+      changed_when: false
+    - name: Display snap list
+      ansible.builtin.debug:
+        var: snap_output.stdout_lines
+      changed_when: false
+
+    - name: Update apt repo and cache
+      ansible.builtin.apt:
+        update_cache: true
+        force_apt_get: true
+        cache_valid_time: 120
+    - name: Get Upgradable packages
+      ansible.builtin.command:
+        argv:
+          - apt
+          - list
+          - --upgradable
+        strip_empty_ends: true
+      register: upgradable_packages
+      changed_when: false
+    - name: List Upgradable packages
+      ansible.builtin.debug:
+        var: upgradable_packages.stdout_lines
+      changed_when: false

@@ -1,10 +1,13 @@
 # https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html
 
+# [ghrunners]
+# ghrunnervm ansible_connection=ssh ansible_user=kost
+
 [xlarge]
 pencilvester ansible_connection=ssh ansible_user=admin
 
 [pies]
-#pi31 ansible_connection=ssh ansible_user=admin
+pi31 ansible_connection=ssh ansible_user=admin
 pi41 ansible_connection=ssh ansible_user=admin
 pi42 ansible_connection=ssh ansible_user=admin
 pi43 ansible_connection=ssh ansible_user=admin
@@ -16,20 +19,13 @@ pi42
 pi43
 pi44
 
-# [torrent_server]
-# pi44
-
 # [dhcp_server]
 # pi31
 
-[ghrunners]
-ghrunnervm ansible_connection=ssh ansible_user=kost
-
-
 [apts]
-#pi31
+pi31
 pi41
 pi42
 pi43
 pi44
-ghrunnervm
+# ghrunnervm

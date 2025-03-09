@@ -11,10 +11,6 @@ Everything of the above needs to be run inside `ansible` directory. `cd ansible`
 python3 -m venv --clear ~/python-env
 source ~/python-env/bin/activate
 pip install -U pip setuptools wheel # Optionally
-```
-
-### Install ansible and tools
-```bash
 pip install -U ansible-core ansible ansible-lint ansible-navigator
 ```
 
@@ -22,13 +18,4 @@ pip install -U ansible-core ansible ansible-lint ansible-navigator
 ### Install ansible collections and roles
 ```bash
 ./bin/install-ansible-lib
-```
-
-
-### Run ansible playbooks
-```bash
-# e.g.
-./bin/ansible-playbook init.yml
-./bin/ansible-playbook node-exporter.yml
-./bin/ansible-playbook docker.yml
 ```

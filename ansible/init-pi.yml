@@ -1,4 +1,10 @@
 ---
+
+#### append to /boot/firmware/config.txt
+# [all]
+# dtoverlay=disable-wifi
+# dtoverlay=disable-bt
+
 - name: Init (root)
   hosts: pies
   become: true

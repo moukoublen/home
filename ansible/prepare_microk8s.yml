@@ -1,0 +1,36 @@
+---
+- name: Disable IPv6
+  hosts: pies
+  become: true
+  become_user: root
+  become_method: ansible.builtin.sudo
+  tasks:
+    - name: Ensure cgroup_enable=memory is present in /boot/firmware/cmdline.txt
+      ansible.builtin.replace:
+        path: /boot/firmware/cmdline.txt
+        regexp: '^(?!.*\bcgroup_enable=memory\b)(.*)$'
+        replace: '\1 cgroup_enable=memory'
+
+    - name: Ensure cgroup_memory=1 is present in /boot/firmware/cmdline.txt
+      ansible.builtin.replace:
+        path: /boot/firmware/cmdline.txt
+        regexp: '^(?!.*\bcgroup_memory=1\b)(.*)$'
+        replace: '\1 cgroup_memory=1'
+
+    - name: Read /boot/firmware/cmdline.txt
+      ansible.builtin.command:
+        cmd: cat /boot/firmware/cmdline.txt
+        strip_empty_ends: true
+      register: cmdline_output
+      changed_when: false
+
+    - name: Display /boot/firmware/cmdline.txt
+      ansible.builtin.debug:
+        var: cmdline_output.stdout_lines
+      changed_when: false
+
+    - name: Install linux-modules-extra-raspi package
+      ansible.builtin.apt:
+        name: linux-modules-extra-raspi
+        state: present
+        update_cache: true

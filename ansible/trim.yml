@@ -1,6 +1,6 @@
 ---
 - name: Trim SSDs
-  hosts: all
+  hosts: pies
   become: true
   become_user: root
   tasks:
@@ -32,14 +32,23 @@
 
     - name: Gather disk usage
       ansible.builtin.command:
-        cmd: duf -hide=special -hide-fs=squashfs -width 500
+        # cmd: duf -hide=special -hide-fs=squashfs -width 500
+        # cmd: lsblk
+        cmd: df --human-readable --print-type --exclude-type=tmpfs --exclude-type=squashfs --exclude-type=devtmpfs
       changed_when: true
-      register: duf_output
+      register: disk_usage_output
 
-    - name: Display duf output
+    - name: Display disk output
       ansible.builtin.debug:
-        var: duf_output.stdout_lines # + trim_output.stderr_lines
+        var: disk_usage_output.stdout_lines # + trim_output.stderr_lines
       changed_when: false
+
+    - name: Ensure systemd fstrim timer is enabled
+      ansible.builtin.systemd:
+        name: fstrim.timer
+        # state: started
+        enabled: true
+        daemon_reload: true
 
   handlers:
     - name: Reboot

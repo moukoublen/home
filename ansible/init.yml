@@ -1,10 +1,4 @@
 ---
-
-#### append to /boot/firmware/config.txt
-# [all]
-# dtoverlay=disable-wifi
-# dtoverlay=disable-bt
-
 - name: Init (user local)
   hosts: all
   become: false
@@ -25,20 +19,20 @@
         group: "{{ ansible_env.USER }}"
         mode: '0751'
 
-    - name: Create htop config directory
-      ansible.builtin.file:
-        path: "/home/{{ ansible_env.USER }}/.config/htop"
-        state: directory
-        owner: "{{ ansible_env.USER }}"
-        group: "{{ ansible_env.USER }}"
-        mode: '0700'
-    - name: Ensure htop config
-      ansible.builtin.copy:
-        src: ./files/htop/htoprc
-        dest: "/home/{{ ansible_env.USER }}/.config/htop/htoprc"
-        owner: "{{ ansible_env.USER }}"
-        group: "{{ ansible_env.USER }}"
-        mode: '0664'
+    # - name: Create htop config directory
+    #   ansible.builtin.file:
+    #     path: "/home/{{ ansible_env.USER }}/.config/htop"
+    #     state: directory
+    #     owner: "{{ ansible_env.USER }}"
+    #     group: "{{ ansible_env.USER }}"
+    #     mode: '0700'
+    # - name: Ensure htop config
+    #   ansible.builtin.copy:
+    #     src: ./files/htop/htoprc
+    #     dest: "/home/{{ ansible_env.USER }}/.config/htop/htoprc"
+    #     owner: "{{ ansible_env.USER }}"
+    #     group: "{{ ansible_env.USER }}"
+    #     mode: '0664'
 
 - name: Init (root)
   hosts: all
@@ -73,31 +67,13 @@
 
     - name: Ensure sshd config
       ansible.builtin.copy:
-        src: ./files/etc/ssh/sshd_config.d/extras.conf
-        dest: /etc/ssh/sshd_config.d/extras.conf
+        src: ./files/etc/ssh/sshd_config.d/10-custom.conf
+        dest: /etc/ssh/sshd_config.d/90-custom.conf
         owner: root
         group: root
         mode: '0644'
       notify:
         - Restart sshd service
-
-    # - name: Packages
-    #   ansible.builtin.apt:
-    #     pkg:
-    #       - smartmontools
-    #       - wget
-    #       - curl
-    #       - jq
-    #       - git
-    #       - build-essential
-    #       - make
-    #       - tree
-    #       - iotop
-    #       - ca-certificates
-    #       - gnupg
-    #       - bc
-    #       - duf
-    #     state: present
 
   handlers:
     - name: Restart sshd service

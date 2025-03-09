@@ -11,3 +11,4 @@ ansible_lib/
 /ansible/private-*
 
 /ansible/venv/
+/.ansible

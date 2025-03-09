@@ -21,23 +21,23 @@
         state: present
 
 
-- name: Clean up script and cron for docker
-  hosts: all
-  become: true
-  become_user: root
-  tasks:
-    - name: Ensure docker-cleanup script exists
-      ansible.builtin.copy:
-        src: ./files/bin/docker-cleanup
-        dest: /usr/local/bin/docker-cleanup
-        owner: root
-        group: root
-        mode: '0755'
-    - name: Cron job for docker clean-up
-      ansible.builtin.cron:
-        name: docker cleanup cronjob
-        special_time: "daily"
-        user: root
-        job: "/usr/local/bin/docker-cleanup"
-        cron_file: docker-clean-job
-        state: present
+# - name: Clean up script and cron for docker
+#   hosts: all
+#   become: true
+#   become_user: root
+#   tasks:
+#     - name: Ensure docker-cleanup script exists
+#       ansible.builtin.copy:
+#         src: ./files/bin/docker-cleanup
+#         dest: /usr/local/bin/docker-cleanup
+#         owner: root
+#         group: root
+#         mode: '0755'
+#     - name: Cron job for docker clean-up
+#       ansible.builtin.cron:
+#         name: docker cleanup cronjob
+#         special_time: "daily"
+#         user: root
+#         job: "/usr/local/bin/docker-cleanup"
+#         cron_file: docker-clean-job
+#         state: present
